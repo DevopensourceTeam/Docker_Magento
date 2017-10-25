@@ -1,0 +1,52 @@
+version: '2'
+services:    
+  portainer:
+    image: portainer/portainer
+    restart: always
+    container_name: container_portainer
+    ports:
+      - "9000"
+
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock  
+      - ./portainer:/data
+
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    restart: always
+    build: ./nginx_proxy
+    container_name: container_nginx_proxy
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./nginx_proxy/default.conf:/etc/nginx/vhost.d/default.conf:ro
+    links:
+      - portainer
+      - web
+
+  web:
+    container_name: container_apache
+    restart: always
+    image: devopensourceteam/php:7.0.6-apache
+    volumes:
+      - ./sites-available:/etc/apache2/sites-enabled
+      - ../../devopensource/htdocs:/var/www/html/:cached # Change "../../devopensource/htdocs" and put your web directory
+      - ./apache/php.ini:/usr/local/etc/php/conf.d/zz-magento.ini
+    ports:
+      - "80"
+    links:
+      - mysql
+
+  mysql:
+    container_name: container_mysql
+    restart: always
+    image: mysql:5.6
+    environment:
+      MYSQL_ROOT_PASSWORD: 'zend' # TODO: Change this
+      MYSQL_USER: 'root'
+      MYSQL_PASS: 'zend'
+    volumes:
+      - "./mysql:/var/lib/mysql:cached"
+    ports:
+      - "3306:3306"
