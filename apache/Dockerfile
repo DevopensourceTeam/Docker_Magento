@@ -11,7 +11,8 @@ RUN apt-get update \
     libmcrypt-dev \
     libpng12-dev \
     libxslt1-dev \
-    htop
+    htop \
+    nano
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
