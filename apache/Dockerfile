@@ -1,4 +1,4 @@
-FROM php:7.0.6-apache
+FROM php:7.0.11-apache
 
 # Install dependencies
 RUN apt-get update \
@@ -11,8 +11,8 @@ RUN apt-get update \
     libmcrypt-dev \
     libpng12-dev \
     libxslt1-dev \
-    htop \
-    nano
+    nano \
+    htop
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
