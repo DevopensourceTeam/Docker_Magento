@@ -1,4 +1,5 @@
 hound/data/
 portainer/
 .DS_Store
-mysql/
+mysql/*
+!mysql/my.cnf

@@ -28,7 +28,7 @@ services:
   web:
     container_name: container_apache
     restart: always
-    image: devopensourceteam/php:7.0.6-apache
+    image: devopensourceteam/php:latest
     volumes:
       - ./sites-available:/etc/apache2/sites-enabled
       - ../../devopensource/htdocs:/var/www/html/:cached # Change "../../devopensource/htdocs" and put your web directory
@@ -48,5 +48,6 @@ services:
       MYSQL_PASS: 'zend'
     volumes:
       - "./mysql:/var/lib/mysql:cached"
+      - "./mysql/my.cnf:/etc/mysql/my.cnf"
     ports:
       - "3306:3306"
